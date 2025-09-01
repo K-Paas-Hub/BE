@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            animation: bgmove 10s ease-in-out infinite alternate;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+        }
+        @keyframes bgmove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .egg {
+            font-size: 6rem;
+            filter: drop-shadow(0 0 20px #fff7b2);
+            animation: bounce 2s infinite;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+        .secret {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #fffbe7;
+            opacity: 0;
+            transition: opacity 0.7s;
+            cursor: pointer;
+            user-select: none;
+        }
+        .secret.revealed {
+            opacity: 1;
+        }
+        .hint {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #fffbe7;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="egg" title="Click me!">🥚</div>
+    <div class="secret" id="secretMsg">축하합니다! 🐣 진짜 이스터에그를 찾으셨네요!<br>행복한 하루 보내세요 :)</div>
+    <script>
+        const egg = document.querySelector('.egg');
+        const secret = document.getElementById('secretMsg');
+        let hatched = false;
+
+        egg.addEventListener('click', () => {
+            if (!hatched) {
+                egg.style.opacity = '0'; // 점점 사라짐
+                setTimeout(() => {
+                    egg.textContent = '🐣'; // 바뀌는 순간
+                    egg.style.opacity = '1'; // 다시 나타남
+                    hatched = true;
+                }, 600); // 페이드 아웃 후 병아리로 변경
+            }
+            secret.classList.add('revealed');
+        });
+
+        secret.addEventListener('click', () => {
+            secret.classList.remove('revealed');
+        });
+    </script>
+
+
+</body>
+</html>
