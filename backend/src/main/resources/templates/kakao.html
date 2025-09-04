@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오 로그인</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: #fee500;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .kakao-logo {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        .kakao-login-btn {
+            background: #fee500;
+            border: 2px solid #fee500;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #3c1e1e;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .kakao-login-btn:hover {
+            background: #ffeb3b;
+            border-color: #ffeb3b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(254, 229, 0, 0.4);
+        }
+
+        .kakao-login-btn:active {
+            transform: translateY(0);
+        }
+
+        .kakao-icon {
+            width: 20px;
+            height: 20px;
+            background: #3c1e1e;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fee500;
+            font-size: 12px;
+        }
+
+        .divider {
+            margin: 30px 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #eee;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 20px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .other-login {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .other-btn {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #eee;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .other-btn:hover {
+            border-color: #ddd;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.5;
+        }
+
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="kakao-logo">💬</div>
+    <h1>간편 로그인</h1>
+    <p class="subtitle">카카오 계정으로 빠르게 시작하세요</p>
+
+    <a href="#" class="kakao-login-btn" onclick="handleKakaoLogin()">
+        <div class="kakao-icon">K</div>
+        카카오로 계속하기
+    </a>
+
+    <div class="divider">
+        <span>또는</span>
+    </div>
+
+    <div class="other-login">
+        <button class="other-btn" onclick="handleGoogleLogin()" title="구글 로그인">
+            🔍
+        </button>
+        <button class="other-btn" onclick="handleNaverLogin()" title="네이버 로그인">
+            🟢
+        </button>
+        <button class="other-btn" onclick="handleEmailLogin()" title="이메일 로그인">
+            📧
+        </button>
+    </div>
+
+    <div class="footer">
+        로그인하면 <a href="#">서비스 약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의하는 것으로 간주됩니다.
+    </div>
+</div>
+
+<script>
+    function handleKakaoLogin() {
+        // OAuth 2.0 카카오 로그인 URL 생성
+        const clientId = 'YOUR_CLIENT_ID'; // 실제 클라이언트 ID로 교체
+        const redirectUri = encodeURIComponent('http://localhost:3000/callback'); // 실제 리다이렉트 URI로 교체
+        const state = generateRandomState();
+
+        const kakaoURL=`/oauth2/authorization/kakao`;
+
+        // 실제 환경에서는 이 URL로 리다이렉트
+        console.log('카카오 OAuth URL:', kakaoURL);
+        alert('실제 환경에서는 카카오 로그인 페이지로 이동합니다.\n\nURL: ' + kakaoURL);
+
+        // 데모용 - 실제로는 주석 해제
+        window.location.href = kakaoURL;
+    }
+
+    function handleGoogleLogin() {
+        alert('구글 로그인 기능 (준비중)');
+    }
+
+    function handleNaverLogin() {
+        alert('네이버 로그인 기능 (준비중)');
+    }
+
+    function handleEmailLogin() {
+        alert('이메일 로그인 기능 (준비중)');
+    }
+
+    function generateRandomState() {
+        return Math.random().toString(36).substring(2, 15) +
+            Math.random().toString(36).substring(2, 15);
+    }
+
+    // URL 파라미터에서 인증 코드 확인 (콜백 처리용)
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        const error = urlParams.get('error');
+
+        if (error) {
+            alert('로그인 중 오류가 발생했습니다: ' + error);
+        } else if (code) {
+            console.log('인증 코드 받음:', code);
+            console.log('State:', state);
+            alert('인증 코드를 받았습니다!\n\n이제 서버에서 액세스 토큰을 요청하세요.\nCode: ' + code);
+        }
+    };
+</script>
+</body>
+</html>

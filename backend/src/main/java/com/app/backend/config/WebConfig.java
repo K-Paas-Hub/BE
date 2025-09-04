@@ -1,4 +1,4 @@
-package config;
+package com.app.backend.config;
 
 
 import org.springframework.context.annotation.Configuration;
