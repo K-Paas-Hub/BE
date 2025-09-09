@@ -52,7 +52,7 @@
             font-weight: bold;
             color: #3c1e1e;
             cursor: pointer;
-            width: 100%;
+            width: calc(100% - 40px);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -184,9 +184,6 @@
 <script>
     function handleKakaoLogin() {
         // OAuth 2.0 카카오 로그인 URL 생성
-        const clientId = 'YOUR_CLIENT_ID'; // 실제 클라이언트 ID로 교체
-        const redirectUri = encodeURIComponent('http://localhost:3000/callback'); // 실제 리다이렉트 URI로 교체
-        const state = generateRandomState();
 
         const kakaoURL=`/oauth2/authorization/kakao`;
 
@@ -194,12 +191,18 @@
         console.log('카카오 OAuth URL:', kakaoURL);
         alert('실제 환경에서는 카카오 로그인 페이지로 이동합니다.\n\nURL: ' + kakaoURL);
 
-        // 데모용 - 실제로는 주석 해제
         window.location.href = kakaoURL;
     }
 
     function handleGoogleLogin() {
-        alert('구글 로그인 기능 (준비중)');
+
+        const googleURL=`/oauth2/authorization/google`;
+
+        // 실제 환경에서는 이 URL로 리다이렉트
+        console.log('카카오 OAuth URL:', googleURL);
+        alert('실제 환경에서는 카카오 로그인 페이지로 이동합니다.\n\nURL: ' + googleURL);
+
+        window.location.href = googleURL;
     }
 
     function handleNaverLogin() {
@@ -210,26 +213,6 @@
         alert('이메일 로그인 기능 (준비중)');
     }
 
-    function generateRandomState() {
-        return Math.random().toString(36).substring(2, 15) +
-            Math.random().toString(36).substring(2, 15);
-    }
-
-    // URL 파라미터에서 인증 코드 확인 (콜백 처리용)
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        const state = urlParams.get('state');
-        const error = urlParams.get('error');
-
-        if (error) {
-            alert('로그인 중 오류가 발생했습니다: ' + error);
-        } else if (code) {
-            console.log('인증 코드 받음:', code);
-            console.log('State:', state);
-            alert('인증 코드를 받았습니다!\n\n이제 서버에서 액세스 토큰을 요청하세요.\nCode: ' + code);
-        }
-    };
 </script>
 </body>
 </html>

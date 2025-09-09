@@ -23,7 +23,16 @@ public enum OAuthAttributes {
         memberProfile.setPhone((String) kakaoAccount.get("phone_number"));
         memberProfile.setProfileImageUrl((String) kakaoProfile.get("profile_image_url")); // 프로필 이미지 URL 설정
         return memberProfile;
+    }),
+
+    GOOGLE("google", (attributes) -> {
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.setEmail((String) attributes.get("email"));
+        memberProfile.setProfileImageUrl((String) attributes.get("profile")); // 구글 프로필 이미지
+        // 구글은 phone_number 기본 제공 안함
+        return memberProfile;
     });
+
 
     private final String registrationId;
     private final Function<Map<String, Object>, MemberProfile> of;

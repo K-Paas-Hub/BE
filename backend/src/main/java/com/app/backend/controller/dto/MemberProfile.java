@@ -1,6 +1,7 @@
 package com.app.backend.controller.dto;
 
 import com.app.backend.entity.Member;
+import com.app.backend.entity.type.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class MemberProfile {
                 .memberEmail(email)
                 .memberPhone(phone)
                 .profileImageUrl(profileImageUrl) // 추가
+                .authority(Authority.USER)
                 .build();
     }
 

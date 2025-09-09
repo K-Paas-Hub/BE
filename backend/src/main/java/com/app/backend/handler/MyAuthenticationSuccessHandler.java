@@ -1,11 +1,11 @@
 package com.app.backend.handler;
 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -21,38 +21,59 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     private static final String REDIRECT_URI = "/oauth/loginInfo";
 
-
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
 
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof OAuth2User) {
-
-            OAuth2User oAuth2User = (OAuth2User) principal;
-            String email = oAuth2User.getAttribute("email");
-            String name = oAuth2User.getAttribute("name");
-            Map<String, Object> attributes = oAuth2User.getAttributes();
-            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-            String phoneNum = (String) kakaoAccount.get("phone_number");
-            phoneNum = phoneNum.replace(" ","").replace("-","");
-            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-            String profileImageUrl = (String) profile.get("profile_image_url");
-            log.info("phoneNum : " + phoneNum+", profileUrl : "+profileImageUrl);
-
-            System.out.println("SuccessHandler oAuth2User: " + oAuth2User);
-            log.info("name = "+name);
-            String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
-                    .queryParam("email", email)
-                    .queryParam("name",name)
-                    .queryParam("phone",phoneNum)
-                    .queryParam("profile",profileImageUrl)
-                    .build()
-                    .encode(StandardCharsets.UTF_8)
-                    .toUriString();
-
-            response.sendRedirect(redirectUrl);
-        } else {
-            throw new IllegalStateException("Authentication principal is not an instance of OAuth2User");
+        if (!(authentication instanceof OAuth2AuthenticationToken)) {
+            throw new IllegalStateException("Authentication is not OAuth2AuthenticationToken");
         }
+
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+        String registrationId = oauthToken.getAuthorizedClientRegistrationId(); // google or kakao
+        OAuth2User oAuth2User = (OAuth2User) oauthToken.getPrincipal();
+
+        String email = null;
+        String name = null;
+        String phoneNum = null;
+        String profileImageUrl = null;
+
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+
+        if ("kakao".equals(registrationId)) {
+            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+            if (kakaoAccount != null) {
+                email = (String) kakaoAccount.get("email");
+                Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+                if (profile != null) {
+                    name = (String) profile.get("nickname");
+                    profileImageUrl = (String) profile.get("profile_image_url");
+                }
+                phoneNum = (String) kakaoAccount.get("phone_number");
+                if (phoneNum != null) {
+                    phoneNum = phoneNum.replace(" ", "").replace("-", "");
+                }
+            }
+        } else if ("google".equals(registrationId)) {
+            email = (String) attributes.get("email");
+            name = (String) attributes.get("name");
+            profileImageUrl = (String) attributes.get("picture");
+            // 구글은 phone_number 기본 scope엔 없음 → null 유지됨
+        }
+
+        log.info("provider={}, email={}, name={}, phone={}, profileUrl={}",
+                registrationId, email, name, phoneNum, profileImageUrl);
+
+        String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
+                .queryParam("email", email)
+                .queryParam("name", name)
+                .queryParam("phone", phoneNum)
+                .queryParam("profile", profileImageUrl)
+                .build()
+                .encode(StandardCharsets.UTF_8)
+                .toUriString();
+
+        response.sendRedirect(redirectUrl);
     }
 }

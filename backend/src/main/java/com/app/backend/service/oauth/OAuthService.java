@@ -3,6 +3,7 @@ package com.app.backend.service.oauth;
 import com.app.backend.controller.dto.MemberProfile;
 import com.app.backend.controller.dto.OAuthAttributes;
 import com.app.backend.entity.Member;
+import com.app.backend.entity.type.Authority;
 import com.app.backend.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,8 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
+        log.info("OAuth2 attributes = {}", attributes); // 여기서 구글/카카오 응답 구조 확인 가능
+
         MemberProfile memberProfile = OAuthAttributes.extract(registrationId, attributes);
         Member member = saveOrUpdate(memberProfile);
 
@@ -44,9 +47,10 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
                 userNameAttributeName);
     }
 
+
     private Map<String, Object> customAttribute(Map<String, Object> attributes, String userNameAttributeName, MemberProfile memberProfile, String registrationId) {
         Map<String, Object> customAttribute = new LinkedHashMap<>();
-        customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
+        customAttribute.put(userNameAttributeName, attributes.getOrDefault(userNameAttributeName, memberProfile.getEmail()));
         customAttribute.put("provider", registrationId);
         customAttribute.put("name", memberProfile.getName());
         customAttribute.put("email", memberProfile.getEmail());
@@ -54,6 +58,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
         customAttribute.put("profile_image_url", memberProfile.getProfileImageUrl());
         return customAttribute;
     }
+
 
     private Member saveOrUpdate(MemberProfile memberProfile) {
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberProfile.getEmail());
