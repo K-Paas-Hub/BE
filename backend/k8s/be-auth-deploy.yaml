@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kareer-be
+  namespace: backend
+  labels:
+    app: kareer-backend-auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kareer-be-auth
+  template:
+    metadata:
+      labels:
+        app: kareer-be-auth
+    spec:
+      containers:
+        - name: kareer-be-auth
+          image: sudo21/kareer:be-{BUILD_DATE_TIME}
+          ports:
+            - containerPort: 8080   # 애플리케이션 실행 포트와 맞춰야 함
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kareer-be-auth
+  namespace: backend
+spec:
+  selector:
+    app: kareer-be-auth
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

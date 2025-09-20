@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    import: optional:file:.env[]
+  application:
+    name: backend
+  datasource:
+    url: jdbc:mysql://${DATABASE_URL}:3306/userdb?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DATABASE_ID}
+    password: ${DATABASE_ID}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  main:
+    allow-bean-definition-overriding: true
+
+  jackson:
+    time-zone: Asia/Seoul
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+    # jpa format
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+  # log
+  output:
+    ansi:
+      enabled: always
+
+  profiles:
+    include: oauth
+
+    #  data:
+    redis:
+      host: ${DATABASE_URL}
+      port: ${REDIS_PORT}
+      password:  ${DATABASE_PASSWORD}
+      timeout: 10000
+
+# JWT 설정
+jwt:
+  secret: ${JWT_KEY}
