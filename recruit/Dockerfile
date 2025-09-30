@@ -24,7 +24,7 @@ WORKDIR /app
 ENV SPRING_PROFILES_ACTIVE=prod
 
 # 빌드 결과만 복사
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/build/libs/app.jar app.jar
 
 # 실행 (환경변수에 따라 profile 달라짐)
 ENTRYPOINT ["java","-jar","/app/app.jar"]
