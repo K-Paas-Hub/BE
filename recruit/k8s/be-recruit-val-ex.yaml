@@ -8,6 +8,10 @@ data:
 
   SERVER_PORT: "8080"
 
+  # Domain
+  FRONT_DOMAIN: "https://localhost:80"
+  SUB_DOMAIN: "http://localhost:8080"
+
   # DB ?? ??
   SPRING_DATASOURCE_URL: "jdbc:mysql://db-host:3306/db-name?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
   SPRING_DATASOURCE_USERNAME: "user"
