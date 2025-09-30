@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: be-recruit
-        image: sudo21/kareer:be-recruit-1
+        image: sudo21/kareer:be-recruit-{BUILD_DATE_TIME}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
