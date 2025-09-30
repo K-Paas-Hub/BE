@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-recruit
+  namespace: backend
+  labels:
+    app: be-recruit
+spec:
+  selector:
+    matchLabels:
+      app: be-recruit
+  template:
+    metadata:
+      labels:
+        app: be-recruit
+    spec:
+      containers:
+      - name: be-recruit
+        image: sudo21/kareer:be-recruit-1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: be-recruit-config
+        - secretRef:
+            name: be-recruit-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: be-recruit
+  namespace: backend
+  labels:
+    app: be-recruit
+spec:
+  selector:
+    app: be-recruit
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
