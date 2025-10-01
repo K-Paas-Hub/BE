@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kareer-be
+  name: kareer-user
   namespace: backend
   labels:
-    app: kareer-backend-auth
+    app: kareer-user
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: kareer-be-auth
+      app: kareer-user
   template:
     metadata:
       labels:
-        app: kareer-be-auth
+        app: kareer-user
     spec:
       containers:
-        - name: kareer-be-auth
-          image: sudo21/kareer:be-{BUILD_DATE_TIME}
+        - name: kareer-user
+          image: be-user-{BUILD_DATE_TIME}
           ports:
             - containerPort: 8080   # 애플리케이션 실행 포트와 맞춰야 함
           resources:

@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  recruit-backend:
+    container_name: user-backend
+    image: sudo21/kareer:be-user-1
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
