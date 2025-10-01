@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: be-recruit-config
+  namespace: backend
+data:
+  SPRING_APPLICATION_NAME: "recruit"
+
+  SERVER_PORT: "8080"
+
+  # Domain
+  FRONT_DOMAIN: "https://localhost:80"
+  SUB_DOMAIN: "http://localhost:8080"
+
+  # DB ?? ??
+  SPRING_DATASOURCE_URL: "jdbc:mysql://db-host:3306/db-name?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+  SPRING_DATASOURCE_USERNAME: "user"
+  SPRING_DATASOURCE_DRIVERCLASSNAME: "com.mysql.cj.jdbc.Driver"
+
+  # JPA ??
+  SPRING_JPA_HIBERNATE_DDLAUTO: "none"
+  SPRING_JPA_SHOWSQL: "false"
+  SPRING_JPA_PROPERTIES_HIBERNATE_FORMATSQL: "false"
+
+  # Hibernate SQL ?? ??
+  LOGGING_LEVEL_ORG_HIBERNATE_SQL: "warn"
+  LOGGING_LEVEL_ORG_HIBERNATE_TYPE_DESCRIPTER_SQL_BASICBINDER: "warn"
+
+  # OpenAPI JSON ?? ?? (???: /v3/api-docs)
+  SPRING_APIDOCS_PATH: "/api-docs"
+
+  # Swagger UI ?? (???: /swagger-ui/index.html)
+  SPRING_SWAGGERUI_PATH: "/swagger-ui.html"
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: be-recruit-secret
+  namespace: backend
+type: Opaque
+data:
+  # DB: (password)
+  SPRING_DATASOURCE_PASSWORD: "cGFzc3dvcmQ="
