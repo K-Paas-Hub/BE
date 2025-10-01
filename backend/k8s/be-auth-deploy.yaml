@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: kareer-user
-          image: be-user-{BUILD_DATE_TIME}
+          image: sudo21/kareer:be-user-{BUILD_DATE_TIME}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080   # 애플리케이션 실행 포트와 맞춰야 함
           resources:
@@ -27,7 +28,6 @@ spec:
             limits:
               cpu: "500m"
               memory: "256Mi"
-          imagePullPolicy: IfNotPresent
       restartPolicy: Always
 ---
 apiVersion: v1
