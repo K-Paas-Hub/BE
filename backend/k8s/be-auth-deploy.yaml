@@ -43,11 +43,6 @@ spec:
                 configMapKeyRef:
                   name: oauth2-config
                   key: DATABASE_ID
-            - name: REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: oauth2-config
-                  key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
