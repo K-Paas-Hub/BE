@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: be-recruit-ingress
+  namespace: backend
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # Swagger UI 경로
+          - path: /swagger-ui/user
+            pathType: Prefix
+            backend:
+              service:
+                name: be-user
+                port:
+                  number: 8081
+          # API 경로
+          - path: /api/user
+            pathType: Prefix
+            backend:
+              service:
+                name: be-user
+                port:
+                  number: 8081
