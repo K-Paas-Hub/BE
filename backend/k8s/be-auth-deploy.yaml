@@ -20,7 +20,67 @@ spec:
           image: sudo21/kareer:be-user-{BUILD_DATE_TIME}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080   # 애플리케이션 실행 포트와 맞춰야 함
+            - containerPort: 8080
+          env:
+            # ConfigMap에서 가져오는 값
+            - name: KAKAO_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: KAKAO_CLIENT_ID
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: GOOGLE_CLIENT_ID
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DATABASE_URL
+            - name: DATABASE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DATABASE_ID
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REDIS_PORT
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL
+
+            # Secret에서 가져오는 값
+            - name: KAKAO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: KAKAO_CLIENT_SECRET
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GOOGLE_CLIENT_SECRET
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DATABASE_PASSWORD
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_KEY
+
           resources:
             requests:
               cpu: "100m"
@@ -29,18 +89,3 @@ spec:
               cpu: "500m"
               memory: "256Mi"
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: kareer-be-auth
-  namespace: backend
-spec:
-  selector:
-    app: kareer-be-auth
-  ports:
-    - name: http
-      protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: ClusterIP

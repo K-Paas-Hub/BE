@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-config
+  namespace: backend
+data:
+  KAKAO_CLIENT_ID: b060d6f347ce7b37c391f58650dc36eb
+  GOOGLE_CLIENT_ID: 741741779505-l9m5d152utslolob29789lrna2f2conh.apps.googleusercontent.com
+  BASE_URL: "https://192.168.1.14"  # Ingress 도메인
+  DATABASE_URL: 133.186.152.61
+  DATABASE_ID: sudo21
+  REDIS_PORT: 6379
