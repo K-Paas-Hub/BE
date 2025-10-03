@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: kareer-user
-          image: sudo21/kareer:be-user-{BUILD_DATE_TIME}
+          image: sudo21/kareer:be-user-1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -26,59 +26,59 @@ spec:
             - name: KAKAO_CLIENT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: KAKAO_CLIENT_ID
             - name: GOOGLE_CLIENT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: GOOGLE_CLIENT_ID
             - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: DATABASE_URL
             - name: DATABASE_ID
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: DATABASE_ID
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: REDIS_PORT
             - name: BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: oauth2-config
                   key: BASE_URL
 
             # Secret에서 가져오는 값
             - name: KAKAO_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: oauth2-secret
                   key: KAKAO_CLIENT_SECRET
             - name: GOOGLE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: oauth2-secret
                   key: GOOGLE_CLIENT_SECRET
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: oauth2-secret
                   key: DATABASE_PASSWORD
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: oauth2-secret
                   key: JWT_KEY
 
           resources:
