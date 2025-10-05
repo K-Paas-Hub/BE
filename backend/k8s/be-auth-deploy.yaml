@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kareer-user
+  name: be-user
   namespace: backend
   labels:
-    app: kareer-user
+    app: be-user
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: kareer-user
+      app: be-user
   template:
     metadata:
       labels:
-        app: kareer-user
+        app: be-user
     spec:
       containers:
-        - name: kareer-user
+        - name: be-user
           image: sudo21/kareer:be-user-1
           imagePullPolicy: IfNotPresent
           ports:

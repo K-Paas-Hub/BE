@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kareer-user
+  name: be-user
   namespace: backend
 spec:
   selector:
-    app: kareer-user
+    app: be-user
   ports:
     - name: http
       protocol: TCP
