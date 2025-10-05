@@ -49,3 +49,7 @@ spring:
 # JWT 설정
 jwt:
   secret: ${JWT_KEY}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
