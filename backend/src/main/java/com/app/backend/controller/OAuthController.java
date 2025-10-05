@@ -23,7 +23,7 @@ public class OAuthController {
 
     private final AuthServiceImpl authServiceImpl;
 
-    private static final String REDIRECT_URI = "http://localhost:3000/oauth";
+    private static final String REDIRECT_URI = "http://kareer.cloud/oauth";
 
     @GetMapping("loginInfo")
     public void onAuthenticationSuccess(HttpServletResponse response,
