@@ -9,17 +9,18 @@ spec:
     - http:
         paths:
           # Swagger UI 경로
-            - path: /user/swagger-ui(/|$)(.*)
-              pathType: ImplementationSpecific
-              backend:
-                service:
-                  name: be-user
-                  port:
-                    number: 8081
-            - path: /user/api(/|$)(.*)
-              pathType: ImplementationSpecific
-              backend:
-                service:
-                  name: be-user
-                  port:
-                    number: 8081
+          - path: /swagger-ui/user
+            pathType: Prefix
+            backend:
+              service:
+                name: be-user
+                port:
+                  number: 8081
+          # API 경로
+          - path: /api/user
+            pathType: Prefix
+            backend:
+              service:
+                name: be-user
+                port:
+                  number: 8081
