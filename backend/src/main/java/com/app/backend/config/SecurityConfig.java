@@ -79,6 +79,8 @@ public class SecurityConfig {
                         .requestMatchers(OAUTH_PATH).permitAll()
                         .requestMatchers("test").permitAll()
                         .requestMatchers("kakao").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers(MEMBER_PATH).hasRole(Authority.USER.name())
                         .requestMatchers(ADMIN_PATH).hasRole(Authority.ADMIN.name())
                         .anyRequest().authenticated()
