@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: be-user
-          image: sudo21/kareer:latest
+          image: sudo21/kareer:be-user-{BUILD_DATE_TIME}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
