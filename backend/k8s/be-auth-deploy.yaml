@@ -20,7 +20,7 @@ spec:
           image: sudo21/kareer:be-user-1
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           env:
             # ConfigMap에서 가져오는 값
             - name: KAKAO_CLIENT_ID
