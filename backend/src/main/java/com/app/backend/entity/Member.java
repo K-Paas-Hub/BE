@@ -5,6 +5,8 @@ import com.app.backend.entity.type.StatusType;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,8 +38,14 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Resume> resumes = new ArrayList<>();
+
     @Builder
-    public Member(Long id, String memberEmail, String memberPhone, String memberPassword, String memberName, String profileImageUrl, StatusType status, Authority authority) {
+    public Member(Long id, String memberEmail, String memberPhone, String memberPassword, String memberName, String profileImageUrl, StatusType status, Authority authority, List<Favorite> favorites, List<Resume> resumes) {
         this.id = id;
         this.memberEmail = memberEmail;
         this.memberPhone = memberPhone;
@@ -46,7 +54,11 @@ public class Member {
         this.profileImageUrl = profileImageUrl;
         this.status = status;
         this.authority = authority;
+        this.favorites = favorites;
+        this.resumes = resumes;
     }
+
+
 
 
     public Member update(String memberName, String memberPhoneNumber, String memberEmail, String profileImageUrl){
