@@ -58,9 +58,6 @@ public class Member {
         this.resumes = resumes;
     }
 
-
-
-
     public Member update(String memberName, String memberPhoneNumber, String memberEmail, String profileImageUrl){
         this.setMemberName(memberName);
         this.setMemberPhone(memberPhoneNumber);
